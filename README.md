@@ -1,2 +1,2 @@
-# sitoCULO
+# Campionato Ufficiale dei Ludopatici Offesi (Official Site)
 A site about Campionato Ufficiale dei Ludopatici Offesi (C.U.L.O.)
