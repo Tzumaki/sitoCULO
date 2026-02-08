@@ -14,7 +14,7 @@
       <div id="navbar">
         <nav class="bg-neutral-primary fixed w-full z-50 top-0 start-0 relative border-default">
           <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-            <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+            <a href="./index.html" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <img src="https://flowbite.com/docs/images/logo.svg" class="h-7" alt="Flowbite Logo" />
                 <span class="self-center text-xl text-heading font-semibold whitespace-nowrap">Campionato Ufficiale dei Ludopatici Offesi</span>
             </a>
@@ -64,26 +64,6 @@
         <div id="default-carousel" class="relative w-full" data-carousel="slide">
             <!-- Carousel wrapper -->
             <div class="relative h-56 overflow-hidden rounded-base md:h-96">
-                <!-- Item 1 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="./img/Bang.jpg" 
-                        class="block w-full h-full object-contain bg-white">
-                </div>
-                <!-- Item 2 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="./img/mario-kart-world.jpg" 
-                        class="block w-full h-full object-contain bg-white">
-                </div>
-                <!-- Item 3 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="./img/Bang.jpg" 
-                        class="block w-full h-full object-contain bg-white">
-                </div>
-                <!-- Item 4 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="./img/mario-kart-world.jpg" 
-                        class="block w-full h-full object-contain bg-white">
-                </div>
             </div>
             <!-- Slider indicators -->
             <div style="position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 30; display: flex; gap: 12px;">
@@ -157,6 +137,58 @@
           
           document.getElementById("tabella-body").innerHTML = html;
         });
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const immagini = [
+                "Bang.jpg",
+                "CardsAgainstHumanity.jpg",
+                "Exploding.jpg",
+                "mario-kart-world.jpg",
+                "MarioParty.jpg",
+                "Overcooked.jpg",
+                "Poker.jpg",
+                "SmashBros.jpg",
+                "Ticket.jpg"
+            ];
+            
+            const carouselContainer = document.querySelector('.relative.h-56.overflow-hidden');
+            
+            immagini.forEach((nomeImmagine, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'hidden duration-700 ease-in-out';
+                itemDiv.setAttribute('data-carousel-item', '');
+                
+                const img = document.createElement('img');
+                img.src = `./img/${nomeImmagine}`;
+                img.className = 'block w-full h-full object-contain bg-white';
+                img.alt = nomeImmagine;
+                
+                itemDiv.appendChild(img);
+                carouselContainer.appendChild(itemDiv);
+            });
+
+            const dotsContainer = document.querySelector('div[style*="position: absolute"][style*="bottom: 20px"]');
+
+            if (dotsContainer) {
+                dotsContainer.innerHTML = '';
+                
+                immagini.forEach((_, index) => {
+                    const dotButton = document.createElement('button');
+                    dotButton.type = 'button';
+                    dotButton.className = 'w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-all duration-200';
+                    dotButton.setAttribute('aria-label', `Slide ${index + 1}`);
+                    dotButton.setAttribute('data-carousel-slide-to', index);
+                    
+                    if (index === 0) {
+                        dotButton.setAttribute('aria-current', 'true');
+                    }
+                    
+                    dotsContainer.appendChild(dotButton);
+                });
+            }
+        });
+  
       </script>
 
 
