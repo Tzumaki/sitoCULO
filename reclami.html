@@ -59,18 +59,19 @@
       </div>
 
       <div class="my-16 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <form class="w-full max-w-md mx-auto lg:max-w-lg xl:max-w-xl">
-            <label for="name" class="block mb-2.5 text-sm font-medium text-fg-success-strong">
+        <form id="reclamo-form" class="w-full max-w-md mx-auto lg:max-w-lg xl:max-w-xl">
+            <input id="data" name="data" type="hidden">
+            <label for="nome" class="block mb-2.5 text-sm font-medium text-fg-success-strong">
             Il tuo nome
             </label>
-            <input type="text" id="name" 
+            <input type="text" id="nome" name="nome"
                 class="bg-success-soft border border-success-subtle text-fg-success-strong text-sm rounded-lg focus:ring-success focus:border-success block w-full px-3 py-2.5 shadow-xs placeholder:text-fg-success-strong" 
                 placeholder="Paolo">
             
-            <label for="message" class="block mb-2.5 text-sm font-medium text-heading">
+            <label for="messaggio" class="block mb-2.5 text-sm font-medium text-heading">
             Il tuo messaggio
             </label>
-            <textarea id="message" rows="4" 
+            <textarea id="messaggio" rows="4" name="messaggio"
                     class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-lg focus:ring-brand focus:border-brand block w-full p-3.5 shadow-xs placeholder:text-body" 
                     placeholder="Scrivi qui..."></textarea>
             <div class="flex justify-end mt-4">
@@ -88,31 +89,57 @@
       </div>
 
       <script>
-        fetch('./data/complaints.json')
-            .then(res => res.text()) 
-            .then(jsonText => JSON.parse(jsonText))
-            .then(parsedText => {
-                const reclami = parsedText.reclami;
-
+        fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vQqO7_fsUIm2ZAe8L1coFgMnvrSl9VrwwZPpBgnfUw1Y2nByDIVvNXgBtbiQwNCtj9J4K9u2Uem2omz/pub?gid=0&single=true&output=csv')
+            .then(res => res.text())
+            .then(csv => {
                 const divReclami = document.getElementById("reclami")
-                
-                reclami.forEach(elem => {
+                const rows = csv.split('\n').slice(1);
+                rows.forEach(row => {
+                    const [nome, data, messaggio] = row.split(',');
                     
                     divReclami.insertAdjacentHTML("beforeend", `
                         <div class="relative flex bg-white shadow-lg rounded-lg mx-4 mb-4 md:mx-auto max-w-md md:max-w-2xl">
                             <div class="absolute top-4 right-4 bg-gray-100 px-2 py-1 rounded-full text-xs font-medium text-gray-700">
-                                ${elem.data}
+                                ${data}
                             </div>
                             <div class="flex items-start px-4 py-6 pt-12"> <!-- pt-12 per spazio data -->
                                 <div class="">
-                                <h2 class="text-lg font-semibold text-gray-900 -mt-1">${elem.nome}</h2>
-                                <p class="mt-3 text-gray-700 text-sm">${elem.messaggio}</p>
+                                <h2 class="text-lg font-semibold text-gray-900 -mt-1">${nome}</h2>
+                                <p class="mt-3 text-gray-700 text-sm">${messaggio}</p>
                                 </div>
                             </div>
                         </div>
                     `)
-                })
-            })
+                });
+        });
+
+
+        document.getElementById('reclamo-form').addEventListener('submit', async function(e) {
+            e.preventDefault();  
+            
+            document.getElementById('data').value = new Date().toLocaleDateString('it-IT');
+            
+            const reclamo = {
+                nome: document.getElementById('nome').value,
+                data: document.getElementById('data').value,
+                messaggio: document.getElementById('messaggio').value
+            };
+            
+            const body = new URLSearchParams(reclamo).toString();
+
+            const URL = "https://script.google.com/macros/s/AKfycbyyx7OscLSifujYzPUF0HJV60itDWnomFl0NjWhOW31iE-GozScyWxRQAu8L0ZwkRxyzw/exec";
+            
+            fetch(URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: body,
+                redirect: 'follow'
+            }).catch(() => {});
+            
+            alert('✅ Reclamo salvato!');
+            this.reset();
+        });
 
       </script>
 
