@@ -1,0 +1,22 @@
+{
+  "reclami": [
+    {
+      "id": 1,
+      "nome": "Paolo Rossi",
+      "data": "10/01/2026",
+      "messaggio": "Il mazzo di Bang era incompleto, mancavano 3 carte revolver."
+    },
+    {
+      "id": 2,
+      "nome": "Giulia Bianchi",
+      "data": "15/01/2026", 
+      "messaggio": "Mario Kart: troppo vantaggio a chi parte dentro. Richiedo penalità."
+    },
+    {
+      "id": 3,
+      "nome": "Luca Verdi",
+      "data": "08/02/2026",
+      "messaggio": "Overcooked: il mio compagno ha buttato via 4 piatti pronti!!!"
+    }
+  ]
+}
