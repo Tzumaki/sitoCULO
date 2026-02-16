@@ -107,7 +107,7 @@
 
     <script>
     // TABELLA
-    fetch("https://docs.google.com/spreadsheets/d/13hQNh69NUj4RiIkBvYoKL3lyY0Aptcxifw6TGupOYwo/gviz/tq?tqx=out:csv&sheet=Foglio1")
+    fetch("https://docs.google.com/spreadsheets/d/1rHbOCKOnvE8U0nMd3IBI9GiCu2T22OqlVAaxfTwkbX0/gviz/tq?tqx=out:csv&sheet=Classifica")
       .then(res => res.text())
       .then(csv => {
         const rows = csv.trim().split("\n");
@@ -132,7 +132,7 @@
             const isEvenRow = i % 2 === 0;
             html += `
               <tr class="bg-neutral-primary border-b ${isEvenRow ? 'border-default' : ''}">
-                <th scope="row" class="px-6 py-4 font-medium text-heading whitespace-nowrap italic">${cells[0] || ''}</th>
+                <th scope="row" class="px-6 py-4 font-medium text-heading whitespace-nowrap italic">${cells[0] || ''}${i === 1 ? '👑 ' : ''}</th>
                 <td class="px-6 py-4 font-bold">${cells[1] || ''}</td>
                 <td class="px-6 py-4">${cells[2] || ''}</td>
                 <td class="px-6 py-4">${cells[3] || ''}</td>
